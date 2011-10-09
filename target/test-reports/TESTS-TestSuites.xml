@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="0" name="ApplicationComponentsServiceIntegrationTests" package="rumal" tests="3" time="1.128" timestamp="2011-09-11T07:54:05">
+      <properties />
+
+      <testcase classname="rumal.ApplicationComponentsServiceIntegrationTests" name="testBuildApplication" time="0.872" />
+
+      <testcase classname="rumal.ApplicationComponentsServiceIntegrationTests" name="testUserManagement" time="0.061" />
+
+      <testcase classname="rumal.ApplicationComponentsServiceIntegrationTests" name="testRightsManagement" time="0.189" />
+
+      <system-out><![CDATA[--Output from testBuildApplication--
+--Output from testUserManagement--
+--Output from testRightsManagement--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testBuildApplication--
+--Output from testUserManagement--
+--Output from testRightsManagement--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="1" name="RightsCheckingServiceIntegrationTests" package="rumal" tests="4" time="0.602" timestamp="2011-09-11T07:54:06">
+      <properties />
+
+      <testcase classname="rumal.RightsCheckingServiceIntegrationTests" name="testUnauthorizedUser" time="0.287" />
+
+      <testcase classname="rumal.RightsCheckingServiceIntegrationTests" name="testAuthorizedUser" time="0.103" />
+
+      <testcase classname="rumal.RightsCheckingServiceIntegrationTests" name="testUnknownUser" time="0.061" />
+
+      <testcase classname="rumal.RightsCheckingServiceIntegrationTests" name="testUnknownAction" time="0.136" />
+
+      <system-out><![CDATA[--Output from testUnauthorizedUser--
+--Output from testAuthorizedUser--
+--Output from testUnknownUser--
+--Output from testUnknownAction--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testUnauthorizedUser--
+--Output from testAuthorizedUser--
+--Output from testUnknownUser--
+--Output from testUnknownAction--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="2" name="ApplicationControllerTests" package="org.rumal" tests="1" time="0.116" timestamp="2011-09-11T07:53:49">
+      <properties />
+
+      <testcase classname="org.rumal.ApplicationControllerTests" name="testSomething" time="0.06" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="3" name="CompagnyControllerTests" package="org.rumal" tests="1" time="0.223" timestamp="2011-09-11T07:53:49">
+      <properties />
+
+      <testcase classname="org.rumal.CompagnyControllerTests" name="testSomething" time="0.059" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="4" name="ComponentControllerTests" package="org.rumal" tests="1" time="1.474" timestamp="2011-09-11T07:53:48">
+      <properties />
+
+      <testcase classname="org.rumal.ComponentControllerTests" name="testSomething" time="1.403" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="5" name="ApplicationTests" package="org.rumal.bo" tests="1" time="0.068" timestamp="2011-09-11T07:53:51">
+      <properties />
+
+      <testcase classname="org.rumal.bo.ApplicationTests" name="testSomething" time="0.042" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="6" name="CompagnyTests" package="org.rumal.bo" tests="1" time="0.151" timestamp="2011-09-11T07:53:51">
+      <properties />
+
+      <testcase classname="org.rumal.bo.CompagnyTests" name="testSomething" time="0.092" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="7" name="ComponentTests" package="org.rumal.bo" tests="1" time="0.07" timestamp="2011-09-11T07:53:51">
+      <properties />
+
+      <testcase classname="org.rumal.bo.ComponentTests" name="testSomething" time="0.039" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="8" name="EmployeeTests" package="org.rumal.bo" tests="1" time="0.08" timestamp="2011-09-11T07:53:52">
+      <properties />
+
+      <testcase classname="org.rumal.bo.EmployeeTests" name="testSomething" time="0.05" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="9" name="PermissionTests" package="org.rumal.bo" tests="1" time="1.283" timestamp="2011-09-11T07:53:50">
+      <properties />
+
+      <testcase classname="org.rumal.bo.PermissionTests" name="testSomething" time="1.249" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="10" name="PrivilegeTests" package="org.rumal.bo" tests="1" time="0.077" timestamp="2011-09-11T07:53:51">
+      <properties />
+
+      <testcase classname="org.rumal.bo.PrivilegeTests" name="testSomething" time="0.052" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="11" name="RoleTests" package="org.rumal.bo" tests="1" time="0.067" timestamp="2011-09-11T07:53:52">
+      <properties />
+
+      <testcase classname="org.rumal.bo.RoleTests" name="testSomething" time="0.041" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="12" name="UserTests" package="org.rumal.bo" tests="1" time="0.116" timestamp="2011-09-11T07:53:51">
+      <properties />
+
+      <testcase classname="org.rumal.bo.UserTests" name="testSomething" time="0.082" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="13" name="ApplicationComponentsServiceTests" package="org.rumal.svc" tests="1" time="0.024" timestamp="2011-09-11T07:53:52">
+      <properties />
+
+      <testcase classname="org.rumal.svc.ApplicationComponentsServiceTests" name="testSomething" time="0.021" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+  <testsuite errors="0" failures="0" hostname="darkchrix-MacBook" id="14" name="RightsCheckingServiceTests" package="org.rumal.svc" tests="1" time="0.082" timestamp="2011-09-11T07:53:52">
+      <properties />
+
+      <testcase classname="org.rumal.svc.RightsCheckingServiceTests" name="testSomething" time="0.057" />
+
+      <system-out><![CDATA[--Output from testSomething--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testSomething--
+]]></system-err>
+
+  </testsuite>
+</testsuites>

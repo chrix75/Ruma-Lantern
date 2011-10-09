@@ -1,0 +1,91 @@
+@CHARSET "UTF-8";
+
+label {
+	width: 15em;
+	text-align: right;
+	float: left;
+	margin-right: 5px;
+	padding-top: 8px;
+}
+
+/* form { */
+/* 	border-style: solid; */
+/* 	border-color: red; */
+/* 	border-width: 1px; */
+/* } */
+
+form input[type='submit'] {
+	float: right;
+}
+
+.inputError {
+	margin-left: 15.5em;
+	margin-top: -15px;
+	color: red;
+	font-weight: bold;
+}
+
+body {
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(0, rgb(218,224,235)),
+	    color-stop(0.5, rgb(145,147,214)),
+	    color-stop(0.75, rgb(109,79,184))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(218,224,235) 0%,
+	    rgb(145,147,214) 50%,
+	    rgb(109,79,184) 75%
+	);
+}
+
+div.main {	
+	background-color: white;
+	margin-top: 32px;
+	border: solid black 1px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;	
+}
+
+h1 {
+	padding-left:15px;
+	padding-top: 15px;
+}
+
+input[type="text"],
+textarea,
+select {
+    width:400px;
+    padding: 0;
+    border: 1px solid #ccc;
+}
+
+.itemsTable {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.itemsTable table {
+	border-collapse:collapse;
+}
+
+.itemsTable table thead th.idColumn {
+	-webkit-border-top-left-radius:10px;
+	-moz-border-radius:10px 0px 0px 0px;
+	border-top-left-radius:10px;
+	width: 5em;
+}
+
+.itemsTable table thead th.nameColumn {
+	-webkit-border-top-right-radius:10px;
+	-moz-border-radius:0px 10px 0px 0px;
+	border-top-right-radius:10px;
+}
+
+
+
+
