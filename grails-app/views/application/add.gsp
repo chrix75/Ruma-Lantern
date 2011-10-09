@@ -31,13 +31,6 @@
 			listName: 'applications' });
 			
 			controller.launch()
-			 
-			//$('#cie').bind('change', selectedCie);
-			
-			//selectOptionById('cie', "0");
-						
-			//selectedCie();
-			
 		});
   	</g:javascript>
   </head>

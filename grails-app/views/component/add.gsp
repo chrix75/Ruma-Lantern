@@ -28,16 +28,40 @@
 	<g:render template="/functions"></g:render>
 	
 	<g:javascript>
-		
+  		var controllerCie;
+  		var controllerApp;		
+  	
 		$(document).ready(function() {
-			$('#cie').bind('change', selectedCie);
-			$('#application').bind('change', selectedApp);
+			controllerCie = new SlaveDataUpdater('cie');
+			controllerCie.addSlaveView('application', 'select', {
+			columns: ['id', 'name'],
+			controller: 'component',
+			action: 'loadCompagnyApp',
+			listName: 'applications' });
 			
-			selectOptionById('cie', "${params.currentCie}");
+
+			controllerApp = new SlaveDataUpdater('application');
+			controllerApp.addSlaveView('componentsTable', 'table', {
+			columns: ['id', 'name'],
+			controller: 'application',
+			action: 'loadApplicationComponents',
+			listName: 'components' });
 			
-			selectedCie();
+			controllerCie.launch();
 			
 		});
+
+<%----%>
+<%--		--%>
+<%--		$(document).ready(function() {--%>
+<%--			$('#cie').bind('change', selectedCie);--%>
+<%--			$('#application').bind('change', selectedApp);--%>
+<%--			--%>
+<%--			selectOptionById('cie', "${params.currentCie}");--%>
+<%--			--%>
+<%--			selectedCie();--%>
+<%--			--%>
+<%--		});--%>
     </g:javascript>
 </head>
 

@@ -16,9 +16,12 @@ class ApplicationController {
     def applicationComponentsService
 	
 	def fetchComponents() {
-		Application application = Application.get(params.id as Long)
-		render AjaxListBuilder.htmlList(application.components)
+		def appId = params.id
+		Application application = Application.get(appId as Long)
+		render([updaterId: params.updaterId, appId: appId, components: application.components] as JSON)
 	}
+	
+
 	
 	def fetchUsers() {
 		Employee employee = Employee.get(params.id as Long)

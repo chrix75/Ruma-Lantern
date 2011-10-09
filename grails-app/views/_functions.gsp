@@ -32,6 +32,8 @@ SlaveDataUpdater.prototype.changed = function(e) {
 		
 		if (slave.data.controller === 'component') {
 			updater.callFunctionForComponent(slave.data.action, id, this.id);
+		} else if (slave.data.controller === 'application') {
+			updater.callFunctionForApplication(slave.data.action, id, this.id);
 		}
 						
 	}
@@ -43,17 +45,30 @@ SlaveDataUpdater.prototype.callFunctionForComponent = function(actionName, id, u
 	}
 }
 
-SlaveDataUpdater.prototype.dispatch  = function(dispatchInfo) {
+
+SlaveDataUpdater.prototype.callFunctionForApplication = function(actionName, id, updaterId) {
+	if (actionName === 'loadApplicationComponents') {
+		${remoteFunction(controller: 'application', action: 'fetchComponents', params: "'id=' + id + '&updaterId=' + updaterId", onSuccess: "onSuccessLoadApplications2(arguments)", onFailure: "error(arguments)")}
+	}
+}
+
+
+SlaveDataUpdater.prototype.dispatch = function(dispatchInfo) {
 	
 	for (var i = 0; i < this.slaves.length; i++) {
 		var slave = this.slaves[i];
 		
-		if (slave.data.action === 'loadCompagnyApp') {
-			if (slave.type === 'select') {
-				fillHtmlSelectOptionsWithAjaxElements(slave.elem[0].id, dispatchInfo[slave.listName]);
-			} else if (slave.type === 'table') {
-				this.generateHtmlTable(slave, dispatchInfo[slave.data.listName]);
+		if (slave.type === 'select') {
+			fillHtmlSelectOptionsWithAjaxElements(slave.elem[0].id, dispatchInfo[slave.data.listName]);
+			
+			// a super slave is a slave element which is a master too for others.
+			var superSlave = SlaveDataUpdater.retrieveMasterFromId(slave.elem[0].id);
+			if (superSlave) {
+				superSlave.launch();
 			}
+			
+		} else if (slave.type === 'table') {
+			this.generateHtmlTable(slave, dispatchInfo[slave.data.listName]);
 		}
 	}
 }
@@ -109,7 +124,7 @@ SlaveDataUpdater.prototype.onLoadSlave = function(ajaxArgs) {
 SlaveDataUpdater.prototype.selectMaster = function(selectedOptionId) {
 	var appHtmlElem = this.master[0];
 	
-	if (selectedOptionId === '0') {
+	if (selectedOptionId == '0') {
 		var selectedOptionId = appHtmlElem.options[0].value;
 	}
 	
@@ -118,6 +133,7 @@ SlaveDataUpdater.prototype.selectMaster = function(selectedOptionId) {
 
 SlaveDataUpdater.prototype.launch = function() {
 	this.selectMaster(0);
+	this.changed.apply(this.master[0]);
 }
 
 /**
