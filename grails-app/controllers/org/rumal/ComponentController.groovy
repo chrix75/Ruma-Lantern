@@ -15,8 +15,12 @@ class ComponentController {
     def index() { redirect(action: 'add')}
 	
 	def fetchPermissions() {
-		Component component = Component.get(params.id as Long)
-		render AjaxListBuilder.htmlList(component.permissions)
+		if (params?.id?.isNumber()) {
+			render(Component.get(params.id as Long).permissions as JSON)
+		} else {
+			render([] as JSON)
+		}
+	
 	}
 
 
@@ -41,7 +45,11 @@ class ComponentController {
 	 */
 	def loadCompagnyApp2() {
 		def cieId = params.id
-		render([updaterId: params.updaterId, cieId: cieId, items: Compagny.findById(cieId as Long)?.applications] as JSON)
+		if (cieId?.isNumber()) {
+			render([updaterId: params.updaterId, cieId: cieId, items: Compagny.findById(cieId as Long)?.applications] as JSON)
+		} else {
+			render([] as JSON)
+		}
 	}
 
 	

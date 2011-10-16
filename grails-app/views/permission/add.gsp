@@ -22,6 +22,8 @@
 
 	<g:javascript library="jquery" />
 	<r:layoutResources />
+	 <script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
+	 
 	<title>Add a permission to component</title>
 	
 	<script type="text/javascript" src="${resource(dir: "js", file: "utils.js")}"></script>
@@ -30,15 +32,43 @@
 	<g:render template="/functions"></g:render>
 
 	<g:javascript>
+		var company;
+		var application;
+		var component;
+		var permissionsTable;
+		
+		function updateApplicationsOptions(id, node) {
+			${remoteFunction(controller: 'component', action: 'loadCompagnyApp2', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onOptionsLoaded(arguments)", onFailure: "error(arguments)")}
+		}
+		
+		function updateComponentsOptions(id, node) {
+			${remoteFunction(controller: 'application', action: 'fetchComponents', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onOptionsLoaded(arguments)", onFailure: "error(arguments)")}
+		}
+		
+		function updatePermissionsList(id, node) {
+			${remoteFunction(controller: 'component', action: 'fetchPermissions', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onNodesLoaded(arguments)", onFailure: "error(arguments)")}
+		}
+		
 		$(document).ready(function(e) {
-			$('#cie').bind('change', selectedCie);
-			$('#application').bind('change', selectedApp);
-			$('#component').bind('change', selectedComponent);
-			
-			selectOptionById('cie', '0');
-			
-			selectedCie();
-			
+	  		company = RumalRoot("cie");
+	  		
+	  		application = company.addSelectChild("application", updateApplicationsOptions);
+	  		application.setKeys({optionKey: "id", optionValue: "name" });
+	  		
+	  		component = application.addSelectChild("component", updateComponentsOptions);
+	  		component.setKeys({optionKey: "id", optionValue: "name" });
+	  		
+	  		permissionsTable = component.addTableChild("permissionsTable", updatePermissionsList, "${createLink(action:'edit')}");
+	  		permissionsTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "Name", prop: "name", htmlClass: "nameColumn"}]);
+	  		
+	  		nodesDict = { cie: company, application: application, component: component };
+	  		
+	  		$("#cie").bind("change", nodeChanged);
+	  		$("#application").bind("change", nodeChanged);
+	  		$("#component").bind("change", nodeChanged);		
+	  		
+	  		$("#cie").trigger("change");
+		
 		});
     </g:javascript>
 </head>

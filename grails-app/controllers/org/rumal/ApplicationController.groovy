@@ -17,8 +17,12 @@ class ApplicationController {
 	
 	def fetchComponents() {
 		def appId = params.id
-		Application application = Application.get(appId as Long)
-		render([updaterId: params.updaterId, appId: appId, components: application.components] as JSON)
+		if (appId?.isNumber()) {
+			Application application = Application.get(appId as Long)
+			render(application.components as JSON)
+		} else {
+		render ([] as JSON)
+		}
 	}
 	
 
@@ -29,8 +33,12 @@ class ApplicationController {
 	}
 
 	def fetchRoles() {
-		Application application = Application.get(params.id as Long)
-		render (application.roles as JSON)
+		if (params?.id?.isNumber()) {
+			Application application = Application.get(params.id as Long)
+			render (application.roles as JSON)
+		} else {
+			render ([] as JSON)
+		}
 	}
 	
 	def retrievePermissionsByRole() {
@@ -45,7 +53,7 @@ class ApplicationController {
 	
 	private def retrievePermissionsByApplication(Application application, selectedPermissions = null) {
 		def componentsList = []
-		application.components.each { comp ->
+		application?.components?.each { comp ->
 			def componentData = [name: comp.name]
 			def currentPermissions = []
 			comp.permissions.each { perm ->
@@ -65,7 +73,11 @@ class ApplicationController {
 	}
 	
 	def retrievePermissionsByComponent() {
-		render (retrievePermissionsByApplication(Application.get(params.id as Long)) as JSON)
+		if (params?.id?.isNumber()) {
+			render (retrievePermissionsByApplication(Application.get(params.id as Long)) as JSON)
+		} else {
+			render([] as JSON)
+		}
 	}
 
 

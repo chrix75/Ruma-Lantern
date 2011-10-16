@@ -12,21 +12,40 @@
   	 
   	 <g:javascript library="jquery" />
 	 <r:layoutResources />
-  	 
+  	 <script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
   	
   	<title>Define a new role for an application</title>
   	
   	<g:render template="/functions"></g:render>
   	
   	<g:javascript>
+		var company;
+		var application;
+		var rolesTable;
+		
+		function updateApplicationsOptions(id, node) {
+			${remoteFunction(controller: 'component', action: 'loadCompagnyApp2', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onOptionsLoaded(arguments)", onFailure: "error(arguments)")}
+		}
+		
+  		function updateRolesList(id, node) {
+			${remoteFunction(controller: 'application', action: 'fetchRoles', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onNodesLoaded(arguments)", onFailure: "error(arguments)")}
+			${remoteFunction(controller: "application", action: "retrievePermissionsByComponent", params: "'id=' + id", onSuccess: "onSuccessRetrievePermissionsByComponents(arguments)", onFailure: "error(arguments)")}
+  		}    	
+		
   	
 		$(document).ready(function() {
-			$('#cie').bind('change', selectedCie);
-			$('#application').bind('change', selectedApp);
-			
-			selectOptionById('cie', "0");
-			selectedCie();
-			selectedApp();
+	  		company = RumalRoot("cie");
+	  		application = company.addSelectChild("application", updateApplicationsOptions);
+	  		application.setKeys({optionKey: "id", optionValue: "name" });
+	  		rolesTable = application.addTableChild("rolesTable", updateRolesList, "${createLink(action:'editRole')}");
+	  		rolesTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "Name", prop: "name", htmlClass: "nameColumn"}]);
+	  		
+	  		nodesDict = { cie: company, application: application };
+	  		
+	  		$("#cie").bind("change", nodeChanged);
+	  		$("#application").bind("change", nodeChanged);		
+	  		
+	  		$("#cie").trigger("change");
 		});
   	</g:javascript>
   </head>

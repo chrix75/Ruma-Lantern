@@ -46,8 +46,12 @@ class CompagnyController {
 	 * @return No return, the result is rendered inside HTML div element.
 	 */
 	def fetchApplications() {
-		Compagny company = Compagny.get(params.id as Long)
-		render (company.applications as JSON)
+		if (params?.id?.isNumber()) {
+			Compagny company = Compagny.get(params.id as Long)
+			render (company.applications as JSON)
+		} else {
+			render ([] as JSON)
+		}
 	}
 	
 	/**
