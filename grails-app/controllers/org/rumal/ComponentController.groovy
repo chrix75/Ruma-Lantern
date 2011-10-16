@@ -41,7 +41,7 @@ class ComponentController {
 	 */
 	def loadCompagnyApp2() {
 		def cieId = params.id
-		render([updaterId: params.updaterId, cieId: cieId, applications: Compagny.findById(cieId as Long)?.applications] as JSON)
+		render([updaterId: params.updaterId, cieId: cieId, items: Compagny.findById(cieId as Long)?.applications] as JSON)
 	}
 
 	

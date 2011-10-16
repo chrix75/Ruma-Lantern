@@ -5,6 +5,7 @@
 function RumalNode() {
 	this.children = [];
 	this.childrenCount = 0;
+	this.ajaxFunction = undefined;
 }
 
 RumalNode.prototype.childrenAt = function(index) {
@@ -17,8 +18,9 @@ RumalNode.prototype.changedNodesAfterChange = function() {
 
 	function fetchChildren(node) {
 		for(var i = 0; i < node.childrenCount; i++) {
-			allDescendants[allDescendants.length] = node.childrenAt(i).name;
-			fetchChildren(node.childrenAt(i));
+			allDescendants[allDescendants.length] = node.childrenAt(i);
+			// remove recursive call because recursivity is done by client-side code
+			//fetchChildren(node.childrenAt(i));
 		}
 	}
 	
@@ -42,7 +44,9 @@ function RumalTableNode(nodeName) {
 	this.constructor = RumalTableNode;
 	this.columnNames = [];
 	this.columnProps = [];
+	this.columnClasses = [];
 	this.rows = [];
+	this.columnsCount = 0;
 }
 
 RumalSelectNode.prototype = new RumalNode();
@@ -65,15 +69,19 @@ RumalSelectNode.prototype.setItems = function(values) {
 	}
 };
 
-RumalSelectNode.prototype.addSelectChild = function(childName) {
+RumalSelectNode.prototype.addSelectChild = function(childName, ajaxFunction) {
 	var child = new RumalSelectNode(childName);
+	child.ajaxFunction = ajaxFunction;
 	this.children[this.children.length] = child;
+	
 	this.childrenCount++;
 	return child;
 };
 
-RumalSelectNode.prototype.addTableChild = function(childName) {
+RumalSelectNode.prototype.addTableChild = function(childName, ajaxFunction, editActionName) {
 	var child = new RumalTableNode(childName);
+	child.ajaxFunction = ajaxFunction;
+	child.editActionName = editActionName;
 	this.children[this.children.length] = child;
 	this.childrenCount++;
 	return child;
@@ -83,15 +91,22 @@ RumalSelectNode.prototype.addTableChild = function(childName) {
  * Table node's methods
  */
 RumalTableNode.prototype.setHeader = function(header) {
-	for (var i = 0; i < header.length; i++) {
+	
+	this.columnsCount = header.length;
+	for (var i = 0; i < this.columnsCount; i++) {
 		this.columnNames[i] = header[i].name;
 		this.columnProps[i] = header[i].prop;
+		this.columnClasses[i] = header[i].htmlClass;
 	}
 };
 
 RumalTableNode.prototype.getItem = function(r, c) {
 	return this.rows[r][c];
 };
+
+RumalTableNode.prototype.getHeaderColumn = function(index) {
+	return {headerName: this.columnNames[index], headerClass: this.columnClasses[index]};
+}
 
 RumalTableNode.prototype.setRows = function(items) {
 	function extractRow(item) {
@@ -102,6 +117,9 @@ RumalTableNode.prototype.setRows = function(items) {
 		
 		return row;
 	}
+	
+	// clear rows array of previous values
+	this.rows = [];
 	
 	for (var i = 0; i < items.length; i++) {
 		this.rows[i] = extractRow.call(this,items[i]);

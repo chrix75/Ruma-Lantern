@@ -12,6 +12,7 @@
   	 
   	 <g:javascript library="jquery" />
 	 <r:layoutResources />
+	 <script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
   	 
   	
   	<title>Add an user to a company</title>
@@ -19,14 +20,24 @@
   	<g:render template="/functions"></g:render>
   	
   	<g:javascript>
+  		var employeesTable;
+  		var companies;
+  		
+		
+  		function updateEmployeesList(id, node) {
+			${remoteFunction(controller: 'compagny', action: 'loadCompanyEmployees', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onNodesLoaded(arguments)", onFailure: "error(arguments)")}
+  		}    	
   	
 		$(document).ready(function() {
-			$('#cie').bind('change', selectedCie);
-			
-			selectOptionById('cie', "${params.cieId}");
-						
-			selectedCie();
-			
+	  		companies = RumalRoot("cie");
+	  		employeesTable = companies.addTableChild("employeesTable", updateEmployeesList, "${createLink(action:'editEmployee')}");
+	  		employeesTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "First Name", prop: "firstName", htmlClass: "nameColumn"}]);
+	  		
+	  		nodesDict = { cie: companies };
+	  		
+	  		$("#cie").bind("change", nodeChanged);		
+	  		
+	  		$("#cie").trigger("change");
 		});
   	</g:javascript>
   </head>

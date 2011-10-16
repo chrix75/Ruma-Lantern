@@ -15,12 +15,8 @@ class CompagnyController {
 	
 	def loadCompanyEmployees() {
 		Compagny cie = Compagny.get(params.id as Long)
-		def empNames = []
-		cie.employees.each {
-			empNames << [name: "${it.firstName} ${it.lastName}", id: it.id]
-		}
-		
-		render (empNames as JSON)
+
+		render (cie.employees as JSON)
 	}
 
 

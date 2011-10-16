@@ -15,10 +15,14 @@ class PermissionController {
 	
 	def loadComponentsByApp() {
 		def appId = params.id
-		Application a = Application.findById(appId as Long)
-		
-		def components = a.components as List
-		render(components as JSON)
+		if (appId?.isNumber()) {
+			Application a = Application.findById(appId as Long)
+			
+			def components = a.components as List
+			render(components as JSON)
+		} else {
+			render([] as JSON);
+		}
 	}
 
 	

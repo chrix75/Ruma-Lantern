@@ -9,7 +9,7 @@ function fillApplicationsArrayFromAjax(arr, jsonData) {
 
 	for (var i = 0; i < jsonData.length; i++) {
 		var item = jsonData[i];
-		arr[arr.length] = new Option(item.name, item.id);
+		arr[arr.length] = new Option(item.value, item.key);
 	}
 }
 

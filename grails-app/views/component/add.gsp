@@ -22,46 +22,43 @@
 
 	<g:javascript library="jquery" />
 	<r:layoutResources />
+	<script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
+	
 	<title>Add a component to application</title>
 	
 
 	<g:render template="/functions"></g:render>
 	
 	<g:javascript>
-  		var controllerCie;
-  		var controllerApp;		
+		var company;
+		var application;
+		var componentsTable;
+		
+		function updateApplicationsOptions(id, node) {
+			${remoteFunction(controller: 'component', action: 'loadCompagnyApp2', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onOptionsLoaded(arguments)", onFailure: "error(arguments)")}
+		}
+		
+  		function updateComponentsList(id, node) {
+			${remoteFunction(controller: 'permission', action: 'loadComponentsByApp', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onNodesLoaded(arguments)", onFailure: "error(arguments)")}
+  		}    	
+		
   	
 		$(document).ready(function() {
-			controllerCie = new SlaveDataUpdater('cie');
-			controllerCie.addSlaveView('application', 'select', {
-			columns: ['id', 'name'],
-			controller: 'component',
-			action: 'loadCompagnyApp',
-			listName: 'applications' });
-			
-
-			controllerApp = new SlaveDataUpdater('application');
-			controllerApp.addSlaveView('componentsTable', 'table', {
-			columns: ['id', 'name'],
-			controller: 'application',
-			action: 'loadApplicationComponents',
-			listName: 'components' });
-			
-			controllerCie.launch();
-			
+	  		company = RumalRoot("cie");
+	  		application = company.addSelectChild("application", updateApplicationsOptions);
+	  		application.setKeys({optionKey: "id", optionValue: "name" });
+	  		componentsTable = application.addTableChild("componentsTable", updateComponentsList, "${createLink(action:'edit')}");
+	  		componentsTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "Name", prop: "name", htmlClass: "nameColumn"}]);
+	  		
+	  		nodesDict = { cie: company, application: application };
+	  		
+	  		$("#cie").bind("change", nodeChanged);
+	  		$("#application").bind("change", nodeChanged);		
+	  		
+	  		$("#cie").trigger("change");
+	  		
 		});
 
-<%----%>
-<%--		--%>
-<%--		$(document).ready(function() {--%>
-<%--			$('#cie').bind('change', selectedCie);--%>
-<%--			$('#application').bind('change', selectedApp);--%>
-<%--			--%>
-<%--			selectOptionById('cie', "${params.currentCie}");--%>
-<%--			--%>
-<%--			selectedCie();--%>
-<%--			--%>
-<%--		});--%>
     </g:javascript>
 </head>
 
