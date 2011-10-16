@@ -61,10 +61,10 @@
   				</tr>
 	  		</thead>
 	  		
-	  		<g:each in="${companies}">
+	  		<g:each in="${companies}" var="cie">
 	  			<tr>
-	  				<td>${it.id}</td>
-	  				<td>${it.name}</td>
+	  				<td>${cie.id}</td>
+	  				<td>${cie.name}</td>
 	  			</tr>
 	  		</g:each>
 	  	</table>
