@@ -13,6 +13,7 @@
   	 
   	 <g:javascript library="jquery" />
 	 <r:layoutResources />
+  	 <script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
   	 
   	
   	<title>Add an application to a company</title>
@@ -20,9 +21,29 @@
   	<g:render template="/functions"></g:render>
   
   	<g:javascript>
-  		var controller;		
+  		var applicationsTable;
+  		
+		function onCompanyApplicationsLoaded(ajaxArgs) {
+			var map = $.parseJSON(ajaxArgs[2].responseText);
+			applicationsTable.setRows(map.applications);
+		}
+		
+  		function selectedCompagnyChanged(evt) {
+  			var id = $('#cie :selected').val();
+  			${remoteFunction(controller: 'component', action: 'loadCompagnyApp2', params: "'id=' + id + '&updaterId=1'", onSuccess: "onCompanyApplicationsLoaded(arguments)", onFailure: "error(arguments)")}
+  		}  	
   	
 		$(document).ready(function() {
+		
+	  		var controller;
+	  		var companies = RumalRoot("cie");
+	  		applicationsTable = companies.addTableChild("applicationsTable");
+	  		applicationsTable.setHeader([ {name: "ID", prop: "id"}, {name: "Application", prop: "name"}]);
+	  		
+	  		
+	  		$("#cie").bind("change", selectedCompagnyChanged);		
+		
+			/*
 			controller = new SlaveDataUpdater('cie');
 			controller.addSlaveView('applicationsTable', 'table', {
 			columns: ['id', 'name'],
@@ -31,6 +52,7 @@
 			listName: 'applications' });
 			
 			controller.launch()
+			*/
 		});
   	</g:javascript>
   </head>
