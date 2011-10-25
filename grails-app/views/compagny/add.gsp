@@ -66,14 +66,16 @@
 		  </g:form>
 	  </div>
 	  
+	  <hr>
+	  
 	  <div class="span-20 prepend-2 append-2 last itemsTable">
-	  	<h2>Current compagnies list</h2>
+	  	<h2>Current companies list</h2>
 	  	
 	  	<table>
 	  		<thead>
 	  			<tr>
 	  				<th class="idColumn">ID</th>
-	  				<th class="nameColumn">Compagny's name</th>
+	  				<th class="nameColumn">Company's name</th>
   				</tr>
 	  		</thead>
 	  		

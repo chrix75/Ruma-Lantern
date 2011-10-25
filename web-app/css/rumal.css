@@ -8,11 +8,9 @@ label {
 	padding-top: 8px;
 }
 
-/* form { */
-/* 	border-style: solid; */
-/* 	border-color: red; */
-/* 	border-width: 1px; */
-/* } */
+form {
+	margin-bottom: 100px;
+} 
 
 form input[type='submit'] {
 	float: right;
@@ -62,7 +60,7 @@ select {
 }
 
 .itemsTable {
-	margin-top: 50px;
+	margin-top: 10px;
 	margin-bottom: 50px;
 }	
 
