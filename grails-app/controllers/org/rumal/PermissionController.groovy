@@ -36,7 +36,7 @@ class PermissionController {
 			
             applicationComponentsService.addPermission(component, [name: params.name, description: params.description])
 
-            redirect(action: 'list')
+            redirect(action: 'add')
 
         }
 	}

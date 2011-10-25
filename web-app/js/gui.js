@@ -176,16 +176,35 @@ function onOptionsLoaded(ajaxArgs) {
 }
 
 
-
 function nodeChanged(evt) {
+	
+	function getParentsId(node) {
+		var allId = {};
+		for (var i = 0; i < node.parents.length; i++) {
+			allId[node.parents[i].name] = $("#" + node.parents[i].name + " :selected").val();
+		}
+		
+		return allId;
+	}
+	
 	var htmlId = evt.target.id;
+	
+	// parent's id by default (if a child has only one parent)
 	var id = $("#" + htmlId + " :selected").val();
 
 	// find nodes to update
 	var changedNode = nodesDict[htmlId];
 	var nodes = changedNode.changedNodesAfterChange();
-	for (var i = 0; i < nodes.length; i++) {
-		nodes[i].ajaxFunction.call(this, id, nodes[i]);
+	for (var i = 0; i < nodes.children.length; i++) {
+		var currentChild = nodes.children[i];
+		
+		if (currentChild.parents.length == 1) {
+			currentChild.ajaxFunction.call(this, id, currentChild);
+		} else {
+			// current child has several parents
+			var allParentsId = getParentsId(currentChild);
+			currentChild.ajaxFunction.call(this, allParentsId, currentChild);
+		}
 	}
 }
 		

@@ -6,8 +6,9 @@ import org.rumal.exceptions.RumalException
 import org.rumal.bo.Compagny
 import org.rumal.bo.Permission
 import org.rumal.bo.Privilege
-import org.rumal.bo.Role;
+import org.rumal.bo.Role
 import org.rumal.bo.User
+import org.rumal.bo.Employee
 
 /**
  * Offers some services for component's management.
@@ -113,6 +114,39 @@ class ApplicationComponentsService {
 		app.addToRoles role
 		
 		return role
+	}
+	
+	/**
+	 * Adds an user to an employee and links this user to an application
+	 * @param e Employee
+	 * @param a Application
+	 * @param userInfo Informations about new user
+	 * @return Created user
+	 */
+	User addUser(Employee e, Application a, userInfo) {
+		
+		User user= new User(userInfo)
+		e.addToUsers(user)
+		a.addToUsers(user)
+		
+		return user
+	}
+	
+	/**
+	 * Removes an application from a company and manages users' deletion
+	 * 
+	 * @param c Company
+	 * @param a Application
+	 * @return
+	 */
+	def removeApplication(Compagny c, Application a) {
+		a.users.collect{it}.each { it.delete() }
+		c.removeFromApplications a
+	}
+	
+	def findUsersForApplicationAndEmployee(Application a, Employee e) {
+		def appUsers = a.users
+		e.users.findAll { empUser -> appUsers.find { appUser -> appUser == empUser  } }
 	}
 	
 	

@@ -26,16 +26,31 @@
   <div class="container main">
   
 	  <h1>Add Company</h1>
+	  <hr>
 	  
-	  <h2>Fill form below</h2>
+	  <div class="span-18 last prepend-3 append-3">
+	  	<div class="info">
+	  	Fill the form below with company's information.<br/>
+	  	<b>Note:</b> All input must be filled.	  	
+	  	</div>
+	  </div>
 	  
 	  <div class="span-15 last prepend-5">
 	  	  
 		  <g:form action="add">
 		      <g:hiddenField name="validate" value="true"/>
+		      
 		      <p>
-		      	<label>Company name:</label><g:textField name="name"/>
+		      	<label>Company name:</label><g:textField name="name" value="${fieldValue(bean:company, field:'name')}"/>
 		      </p>
+		      
+		      <g:hasErrors bean="${company}" field="name">
+			      <p class="inputError">
+				      <g:eachError bean="${company}" field="name">
+		              	<g:message error="${it}"/>
+		         	  </g:eachError>
+			      </p>
+		      </g:hasErrors>
 		      
 		      <p>
 		      	<label>SIRET:</label><g:textField name="siret"/>
@@ -44,6 +59,7 @@
 		      <p>
 		      	<label>Zip Code:</label><g:textField name="zipcode"/>
 		      </p>
+		      
 		      
   	      	  <g:submitButton name="addCompany" value="Add"/>
 		
@@ -61,12 +77,14 @@
   				</tr>
 	  		</thead>
 	  		
+	  		<tbody>
 	  		<g:each in="${companies}" var="cie">
 	  			<tr>
 	  				<td>${cie.id}</td>
 	  				<td>${cie.name}</td>
 	  			</tr>
 	  		</g:each>
+	  		</tbody>
 	  	</table>
 	  	
 	  </div>

@@ -3,6 +3,7 @@
 */
 
 function RumalNode() {
+	this.parents = [];
 	this.children = [];
 	this.childrenCount = 0;
 	this.ajaxFunction = undefined;
@@ -14,19 +15,45 @@ RumalNode.prototype.childrenAt = function(index) {
 
 
 RumalNode.prototype.changedNodesAfterChange = function() {
-	var allDescendants = [];
-
+	var allChildren = [];
+	var allParents = [];
+	
 	function fetchChildren(node) {
 		for(var i = 0; i < node.childrenCount; i++) {
-			allDescendants[allDescendants.length] = node.childrenAt(i);
-			// remove recursive call because recursivity is done by client-side code
-			//fetchChildren(node.childrenAt(i));
+			allChildren[allChildren.length] = node.children[i];
+		}
+	}
+	
+
+	function fetchParents(node) {
+		for(var i = 0; i < node.parents.length; i++) {
+			allParents[allParents.length] = node.parents[i];
 		}
 	}
 	
 	fetchChildren(this);
+	fetchParents(this);
 	
-	return allDescendants;
+	return {children: allChildren, parents: allParents};
+};
+
+RumalNode.prototype.hasChild = function(node) {
+	for (var i = 0; i < this.childrenCount; i++) {
+		if (this.childrenAt(i) == node) {
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+RumalNode.prototype.addParent = function (node){
+	this.parents[this.parents.length] = node;
+	
+	if (!node.hasChild(this)) {
+		node.children[node.children.length] = this;
+		node.childrenCount++;
+	}
 };
 
 /*
@@ -71,6 +98,7 @@ RumalSelectNode.prototype.setItems = function(values) {
 
 RumalSelectNode.prototype.addSelectChild = function(childName, ajaxFunction) {
 	var child = new RumalSelectNode(childName);
+	child.addParent(this);
 	child.ajaxFunction = ajaxFunction;
 	this.children[this.children.length] = child;
 	
@@ -80,6 +108,7 @@ RumalSelectNode.prototype.addSelectChild = function(childName, ajaxFunction) {
 
 RumalSelectNode.prototype.addTableChild = function(childName, ajaxFunction, editActionName) {
 	var child = new RumalTableNode(childName);
+	child.addParent(this);
 	child.ajaxFunction = ajaxFunction;
 	child.editActionName = editActionName;
 	this.children[this.children.length] = child;

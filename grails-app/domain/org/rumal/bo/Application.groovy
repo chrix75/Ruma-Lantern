@@ -9,7 +9,7 @@ class Application {
         description(nullable: false, blank: false)
     }
 
-    static hasMany = [ components : Component, roles : Role ]
+    static hasMany = [ components : Component, roles : Role, users: User ]
 
     static belongsTo = [ cie : Compagny]
 

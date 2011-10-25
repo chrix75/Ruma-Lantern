@@ -14,9 +14,12 @@ class CompagnyController {
 	
 	
 	def loadCompanyEmployees() {
-		Compagny cie = Compagny.get(params.id as Long)
-
-		render (cie.employees as JSON)
+		if (params?.id?.isNumber()) {
+			Compagny cie = Compagny.get(params.id as Long)
+			render (cie.employees as JSON)
+		} else {
+			render([] as JSON)
+		}
 	}
 
 
@@ -33,6 +36,7 @@ class CompagnyController {
                 redirect(action: 'add')
             } else {
                 log.error("Company ${cie.name} hasn't been added")
+				return [company: cie, companies: Compagny.list()]
             }
         }  else {
             log.info("Add company form")

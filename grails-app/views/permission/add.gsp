@@ -22,7 +22,7 @@
 
 	<g:javascript library="jquery" />
 	<r:layoutResources />
-	 <script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
+	<script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
 	 
 	<title>Add a permission to component</title>
 	
@@ -41,13 +41,18 @@
 			${remoteFunction(controller: 'component', action: 'loadCompagnyApp2', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onOptionsLoaded(arguments)", onFailure: "error(arguments)")}
 		}
 		
-		function updateComponentsOptions(id, node) {
+		function updateEmployeesOptions(id, node) {
 			${remoteFunction(controller: 'application', action: 'fetchComponents', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onOptionsLoaded(arguments)", onFailure: "error(arguments)")}
 		}
 		
 		function updatePermissionsList(id, node) {
 			${remoteFunction(controller: 'component', action: 'fetchPermissions', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onNodesLoaded(arguments)", onFailure: "error(arguments)")}
 		}
+		
+		function updateComponentsOptions(id, node) {
+			${remoteFunction(controller: 'application', action: 'fetchComponents', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onOptionsLoaded(arguments)", onFailure: "error(arguments)")}
+		}
+
 		
 		$(document).ready(function(e) {
 	  		company = RumalRoot("cie");

@@ -28,8 +28,13 @@ class ApplicationController {
 
 	
 	def fetchUsers() {
-		Employee employee = Employee.get(params.id as Long)
-		render (employee.users as JSON)
+		if (params?.applicationId?.isNumber() && params?.employeeId?.isNumber()) {
+			Employee employee = Employee.get(params.employeeId as Long)
+			Application app = Application.get(params.applicationId as Long)
+			render (applicationComponentsService.findUsersForApplicationAndEmployee(app, employee) as JSON)
+		} else {
+			render ([] as JSON)
+		}
 	}
 
 	def fetchRoles() {
@@ -180,11 +185,11 @@ class ApplicationController {
 	def addUser() {
 		if (params.validate) {
 			Employee emp = Employee.get(params.employee)
-			log.info("New user for employee ${emp.name} with params $params")
+			Application application = Application.get(params.application)
 			
-			User user= new User(params)
-			emp.addToUsers(user)
+			log.info("New user for application ${application.name} belonging to employee ${emp.name} with params $params")
 			
+			applicationComponentsService.addUser(emp, application, params)
 		}
 		
 	}

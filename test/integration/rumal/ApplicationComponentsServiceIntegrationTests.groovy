@@ -53,13 +53,18 @@ class ApplicationComponentsServiceIntegrationTests {
         cie.addToEmployees(darkVader)
 
         assert cie.employees.size() == 1
+		
+		Application blackStart = applicationComponentsService.addApplication(cie, [name: 'Black Start', description: 'The dark side of the force'])
 
-        User dark = new User(login: 'dark', password: 'dark1234')
-        User vader = new User(login: 'vader', password: 'dark1234')
-        darkVader.addToUsers(dark)
-        darkVader.addToUsers(vader)
-
+		User dark = applicationComponentsService.addUser(darkVader, rumalApp, [login: 'dark', password: 'dark1234'])
+		User vader = applicationComponentsService.addUser(darkVader, blackStart, [login: 'vader', password: 'dark1234'])
+		
         darkVader.users.size() == 2
+		rumalApp.users.size() == 1
+		blackStart.users.size() == 1
+		
+		applicationComponentsService.removeApplication(cie, blackStart)
+		darkVader.users.size() == 1
     }
 
     @Test
