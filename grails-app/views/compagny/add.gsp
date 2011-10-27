@@ -17,8 +17,20 @@
 	 <![endif]-->
   	
   	 <link rel="stylesheet" href="${resource(dir:'css', file:'rumal.css')}" type="text/css" media="screen, projection">
+   	 
+ 	 <g:javascript library="jquery" />
+ 	 <r:layoutResources />
+	 <script type="text/javascript" src="${resource(dir:'js', file:'gui.js')}"></script>
   	
 	 <title>Add a new company</title>
+	 
+	 <g:javascript>
+	 	$(document).ready(function() {
+	 		$("#details").bind("click", toggleDetails);
+	 		$("#details img").addClass("close");
+	 	});
+	 	
+	 </g:javascript>
   </head>
   
   <body>
@@ -31,7 +43,7 @@
 	  <div class="span-18 last prepend-3 append-3">
 	  	<div class="info">
 	  	Fill the form below with company's information.<br/>
-	  	<b>Note:</b> All input must be filled.	  	
+	  	<b>Note:</b> Company's name must be filled and unique.	  	
 	  	</div>
 	  </div>
 	  
@@ -68,8 +80,9 @@
 	  
 	  <hr>
 	  
-	  <div class="span-20 prepend-2 append-2 last itemsTable">
-	  	<h2>Current companies list</h2>
+	<g:render template="/list"/>
+	
+	<div class="span-20 prepend-2 append-2 last itemsTable">
 	  	
 	  	<table>
 	  		<thead>
@@ -89,7 +102,7 @@
 	  		</tbody>
 	  	</table>
 	  	
-	  </div>
+	</div>
   </div>
   </body>
 </html>

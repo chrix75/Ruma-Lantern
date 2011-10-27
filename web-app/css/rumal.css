@@ -62,6 +62,12 @@ select {
 .itemsTable {
 	margin-top: 10px;
 	margin-bottom: 50px;
+	overflow: hidden;
+	-moz-transition-property: height;
+	-moz-transition-duration: 500ms;
+	-moz-transition-delay: 0s;
+	-moz-transition-timing-function: ease-out, linear;
+	height: 0;
 }	
 
 
@@ -90,6 +96,31 @@ select {
 	margin-bottom: 5px;
 	padding-left: 24px;
 	
+}
+
+#details {
+	margin-bottom: 15px;
+	font-weight: bold;
+}
+
+#details:hover {
+	cursor:  pointer;
+}
+
+#details img {
+	display: inline;
+	float: left;
+}
+
+#details img.open {
+    -moz-transform: rotate(90deg);
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 0.5s;
+}
+
+#details img.close {
+    -moz-transition-property: -moz-transform;
+    -moz-transition-duration: 0.5s;
 }
 
 

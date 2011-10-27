@@ -5,6 +5,22 @@ function error(ajaxResponse) {
 	alert('Error Ploum');
 }
 
+function toggleDetails(e) {
+	if ($("#details img").hasClass("close")) {
+		$("#details img").removeClass("close");
+		$("#details img").addClass("open");
+		
+		$(".itemsTable").height("300px");
+	} else {
+		$("#details img").removeClass("open");
+		$("#details img").addClass("close");
+		
+		$(".itemsTable").height("0");
+ 		}
+ 	}
+ 
+
+
 
 function loadedComponentsList(args) {
 	fillHtmlSelectOptionsWithAjaxElements("component", args[2]);
@@ -130,6 +146,12 @@ function js_addItems(table, provider, editLink) {
 	table.appendChild(tbody);
 }  		
 	
+
+function bindDetailsPanel() {
+	$("#details").bind("click", toggleDetails);
+	$("#details img").addClass("close");
+}
+
 function buildHTMLTableList(provider, modifiedDiv) {
 
 	var div = document.createElement('div');
@@ -142,8 +164,8 @@ function buildHTMLTableList(provider, modifiedDiv) {
 
 	div.appendChild(table);
 	
+	div.style.height = $('#' + modifiedDiv).height();
 	$('#' + modifiedDiv).replaceWith(div);
-		    	
 }
 
 function onNodesLoaded(ajaxArgs) {

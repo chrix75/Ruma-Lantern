@@ -38,6 +38,10 @@
 	  		$("#cie").bind("change", nodeChanged);		
 	  		
 	  		$("#cie").trigger("change");
+	  		
+	  		bindDetailsPanel();	 		
+	 		$("#idTable").attr('id', 'employeesTable');
+	  		
 		});
   	</g:javascript>
   </head>
@@ -83,7 +87,7 @@
 		  </g:form>
 	  </div>
 	  
-	  <div id="employeesTable" class="itemsTable span-20 append-2 prepend-2"></div>
+	  <g:render template="/list"/>
 	  
   </div>
   </body>

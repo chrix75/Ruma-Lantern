@@ -39,6 +39,9 @@
 				  		
 	  		$("#cie").bind("change", nodeChanged);		
 	  		$("#cie").trigger("change");
+	  		
+	  		bindDetailsPanel();
+	  		$("#idTable").attr('id', 'applicationsTable');
 		});
   	</g:javascript>
   </head>
@@ -58,7 +61,7 @@
 		  </g:form>
 	  </div>
 	  
-	  <div id="applicationsTable" class="itemsTable span-20 append-2 prepend-2"></div>
+	  <g:render template="/list"/>
 	  
   </div>
   </body>
