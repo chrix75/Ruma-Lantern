@@ -78,9 +78,13 @@
 		  </g:form>
 	  </div>
 	  
-	  <hr>
+	<hr>
 	  
-	<g:render template="/list"/>
+	<div id="details" class="span-20 prepend-2 append-2 last">
+		<img src="${resource(dir:'images', file:'arrow.png')}">
+		<span>List</span>
+	</div>
+	
 	
 	<div class="span-20 prepend-2 append-2 last itemsTable">
 	  	
