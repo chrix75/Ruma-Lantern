@@ -12,6 +12,9 @@ class CompagnyController {
     // menu page for applications management
     def index() {  }
 	
+	def loadCompanies() {
+		render (Compagny.list() as JSON)
+	}
 	
 	def loadCompanyEmployees() {
 		if (params?.id?.isNumber()) {
@@ -25,11 +28,11 @@ class CompagnyController {
 
     // adds a new company to rights management system
     def add() {
-
         if (params.validate) {
             log.info("New company with params $params")
             // this action is called to add a new company
             Compagny cie = new Compagny(params)
+			
             if (cie.validate()) {
                 cie.save()
                 log.info("Company ${cie.name} added")
@@ -42,7 +45,29 @@ class CompagnyController {
             log.info("Add company form")
 			return [companies: Compagny.list()]
         }
+		
     }
+	
+	def edit() {
+        if (params.validate) {
+            log.info("Edit company with params $params")
+            // this action is called to add a new company
+            Compagny cie = Compagny.get(params.cieId as Long)
+			cie.properties = params
+			
+            if (cie.validate()) {
+                cie.save()
+                log.info("Company ${cie.name} added")
+                redirect(action: 'add')
+            } else {
+                log.error("Company ${cie.name} hasn't been changed")
+				return [company: cie, companies: Compagny.list(), actionType: 'edit']
+            }
+        }  else {
+            log.info("Edit company form")
+			return [company: Compagny.get(params.id as Long), actionType: 'edit']
+        }
+	}
 	
 	/**
 	 * Ajax function which fetch all applications of a company.

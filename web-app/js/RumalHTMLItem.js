@@ -106,11 +106,12 @@ RumalSelectNode.prototype.addSelectChild = function(childName, ajaxFunction) {
 	return child;
 };
 
-RumalSelectNode.prototype.addTableChild = function(childName, ajaxFunction, editActionName) {
+RumalSelectNode.prototype.addTableChild = function(childName, ajaxFunction, editActionName, deleteActionName) {
 	var child = new RumalTableNode(childName);
 	child.addParent(this);
 	child.ajaxFunction = ajaxFunction;
 	child.editActionName = editActionName;
+	child.deleteActionName = deleteActionName;
 	this.children[this.children.length] = child;
 	this.childrenCount++;
 	return child;

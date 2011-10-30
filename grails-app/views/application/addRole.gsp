@@ -37,7 +37,7 @@
 	  		company = RumalRoot("cie");
 	  		application = company.addSelectChild("application", updateApplicationsOptions);
 	  		application.setKeys({optionKey: "id", optionValue: "name" });
-	  		rolesTable = application.addTableChild("rolesTable", updateRolesList, "${createLink(action:'editRole')}");
+	  		rolesTable = application.addTableChild("rolesTable", updateRolesList, "${createLink(action:'editRole')}", "${createLink(action:'deleteRole')}");
 	  		rolesTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "Name", prop: "name", htmlClass: "nameColumn"}]);
 	  		
 	  		nodesDict = { cie: company, application: application };

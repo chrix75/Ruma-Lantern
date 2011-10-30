@@ -47,7 +47,7 @@
 	  		employee = company.addSelectChild("employee", updateEmployeesOptions);
 	  		employee.setKeys({optionKey: "id", optionValue: "firstName" });
 	  		
-	  		usersTable = employee.addTableChild("usersTable", updateUsersList, "${createLink(action:'edit')}");
+	  		usersTable = employee.addTableChild("usersTable", updateUsersList, "${createLink(action:'edit')}", "${createLink(action:'delete')}");
 	  		usersTable.addParent(application);
 	  		usersTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "Login", prop: "login", htmlClass: "nameColumn"} ]);
 	  		

@@ -105,6 +105,13 @@ function updateFormItemsState() {
 	$('#submit').prop('disabled', false);
 }
 
+function addActionHeader(thead) {
+	var td = document.createElement('th');
+	td.setAttribute('class', 'actionColumn');
+	td.textContent = "Actions";
+	thead.appendChild(td);		
+}
+
 function js_addTableHeader(o, provider) {
 	var thead = document.createElement('thead');
 	var tr = document.createElement('tr');
@@ -116,11 +123,47 @@ function js_addTableHeader(o, provider) {
 		thead.appendChild(td);		
 	}
 	
+	addActionHeader(thead);
+	
 	thead.appendChild(tr);
 	o.appendChild(thead);
 }
 
-function js_addItems(table, provider, editLink) {
+function addDeleteButton(td, item, deleteLink) {
+	var a = document.createElement('a');
+	var link = deleteLink + '/' + item[0];
+	a.setAttribute('href', link);
+
+	var edit = document.createElement('div');
+	edit.setAttribute('class', 'action actionDelete');
+	a.appendChild(edit);
+	
+	td.appendChild(a);
+}
+
+function addEditButton(td, item, editLink) {
+	var a = document.createElement('a');
+	var link = editLink + '/' + item[0];
+	a.setAttribute('href', link);
+
+	var edit = document.createElement('div');
+	edit.setAttribute('class', 'action actionEdit');
+	a.appendChild(edit);
+	
+	td.appendChild(a);
+}
+
+function addActionColumn(tr, item, editLink, deleteLink) {
+	var td = document.createElement('td');
+	
+	addEditButton(td, item, editLink);
+	addDeleteButton(td, item, deleteLink);
+	
+	tr.appendChild(td);
+
+}
+
+function js_addItems(table, provider, editLink, deleteLink) {
 	
 	var tbody = document.createElement('tbody');
 	for (var i = 0; i < provider.rows.length; i++) {
@@ -131,14 +174,12 @@ function js_addItems(table, provider, editLink) {
 		
 		for(var j = 1; j < provider.columnsCount; j++) {
 			td = document.createElement('td');
-			var a = document.createElement('a');
-			var link = editLink + '/' + provider.getItem(i,0);
-			a.setAttribute('href', link);
-			a.textContent = provider.getItem(i,j);
-			td.appendChild(a);
+			td.textContent = provider.getItem(i,j);
 			
 			tr.appendChild(td);
 		}
+		
+		addActionColumn(tr, provider.rows[i], editLink, deleteLink);
 		
 		tbody.appendChild(tr);
 	}
@@ -160,7 +201,7 @@ function buildHTMLTableList(provider, modifiedDiv) {
 
 	var table = document.createElement('table');
 	js_addTableHeader(table, provider);
-	js_addItems(table, provider, provider.editActionName);
+	js_addItems(table, provider, provider.editActionName, provider.deleteActionName);
 
 	div.appendChild(table);
 	
@@ -197,8 +238,7 @@ function onOptionsLoaded(ajaxArgs) {
 	
 }
 
-
-function nodeChanged(evt) {
+function updateNodes(htmlId) {
 	
 	function getParentsId(node) {
 		var allId = {};
@@ -208,8 +248,6 @@ function nodeChanged(evt) {
 		
 		return allId;
 	}
-	
-	var htmlId = evt.target.id;
 	
 	// parent's id by default (if a child has only one parent)
 	var id = $("#" + htmlId + " :selected").val();
@@ -228,6 +266,12 @@ function nodeChanged(evt) {
 			currentChild.ajaxFunction.call(this, allParentsId, currentChild);
 		}
 	}
+	
+}
+
+function nodeChanged(evt) {
+	var htmlId = evt.target.id;
+	updateNodes(htmlId);
 }
 		
 

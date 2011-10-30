@@ -63,7 +63,7 @@
 	  		component = application.addSelectChild("component", updateComponentsOptions);
 	  		component.setKeys({optionKey: "id", optionValue: "name" });
 	  		
-	  		permissionsTable = component.addTableChild("permissionsTable", updatePermissionsList, "${createLink(action:'edit')}");
+	  		permissionsTable = component.addTableChild("permissionsTable", updatePermissionsList, "${createLink(action:'edit')}", "${createLink(action:'delete')}");
 	  		permissionsTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "Name", prop: "name", htmlClass: "nameColumn"}]);
 	  		
 	  		nodesDict = { cie: company, application: application, component: component };

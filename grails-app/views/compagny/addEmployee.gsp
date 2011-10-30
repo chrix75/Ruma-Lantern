@@ -30,8 +30,10 @@
   	
 		$(document).ready(function() {
 	  		companies = RumalRoot("cie");
-	  		employeesTable = companies.addTableChild("employeesTable", updateEmployeesList, "${createLink(action:'editEmployee')}");
-	  		employeesTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "First Name", prop: "firstName", htmlClass: "nameColumn"}]);
+	  		employeesTable = companies.addTableChild("employeesTable", updateEmployeesList, "${createLink(action:'editEmployee')}", "${createLink(action:'deleteEmployee')}");
+	  		employeesTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}
+	  			, {name: "First Name", prop: "firstName", htmlClass: "nameColumn"}
+	  			, {name: "Last Name", prop: "lastName", htmlClass: "nameColumn"}]);
 	  		
 	  		nodesDict = { cie: companies };
 	  		
@@ -83,7 +85,7 @@
 		      <!-- Error message for above field [END]-->
 		      
 			  	
-		      <g:actionSubmit value="AddEmployee"/>
+		      <g:submitButton name="addEmployee" value="Add"/>
 		  </g:form>
 	  </div>
 	  

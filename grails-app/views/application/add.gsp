@@ -31,7 +31,7 @@
   	
 		$(document).ready(function() {
 	  		companies = RumalRoot("cie");
-	  		applicationsTable = companies.addTableChild("applicationsTable", updateApplicationsList, "${createLink(action:'edit')}");
+	  		applicationsTable = companies.addTableChild("applicationsTable", updateApplicationsList, "${createLink(action:'edit')}", "${createLink(action:'delete')}");
 	  		applicationsTable.setHeader([ {name: "ID", prop: "id", htmlClass: "idColumn"}, {name: "Application", prop: "name", htmlClass: "nameColumn"}]);
 
 			// to help general functions to work

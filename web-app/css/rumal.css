@@ -16,6 +16,12 @@ form input[type='submit'] {
 	float: right;
 }
 
+a.cancel {
+	float: right;
+	margin-right: 4em;
+	margin-top: 4px;
+}
+
 .inputError {
 	margin-left: 15.5em;
 	margin-top: -15px;
@@ -87,6 +93,28 @@ select {
 }
 
 .itemsTable table thead th.nameColumn {
+}
+
+.itemsTable table thead th.actionColumn {
+	width: 68px;
+}
+
+.action {
+	width: 18px;
+	height: 18px;
+	margin: 0 8px 0 8px;
+	background-repeat: no-repeat;
+}
+
+.actionEdit {
+	background-image: url(../images/edit.png);
+	display: inline-block;
+	margin-left: 0;
+}
+
+.actionDelete {
+	background-image: url(../images/delete.png);
+	display: inline-block;
 }
 
 .inputerror {
