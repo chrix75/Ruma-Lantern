@@ -9,21 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
   <head>
-  	
-	 <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'screen.css')}" type="text/css" media="screen, projection">
-	 <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'print.css')}" type="text/css" media="print"> 
-	 <!--[if lt IE 8]>
-	   <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'ie.css')}" type="text/css" media="screen, projection">
-	 <![endif]-->
-  	
-  	 <link rel="stylesheet" href="${resource(dir:'css', file:'rumal.css')}" type="text/css" media="screen, projection">
-   	 
- 	 <g:javascript library="jquery" />
- 	 <r:layoutResources />
-	 <script type="text/javascript" src="${resource(dir:'js', file:'gui.js')}"></script>
-	 <script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
-  	
-	 <title>Add a new company</title>
+  	 <g:render template="/header" model="[title: 'Add a company']"/>
 	 
 	 <g:javascript>
   		function updateCompaniesList(node) {
@@ -50,17 +36,14 @@
   
   <div class="container main">
   
-	  <h1>Add Company</h1>
-
-	  <hr>
-	  
-	  <div class="span-18 last prepend-3 append-3">
-	  	<div class="info">
+  	  <g:applyLayout name="pagetitle">Add a company</g:applyLayout>
+  	  
+	  <g:applyLayout name="informationbanner">
 	  	Fill the form below with company's information.<br/>
 	  	<b>Note:</b> Company's name must be filled and unique.	  	
-	  	</div>
-	  </div>
-	  
+	  </g:applyLayout>
+  	  
+  
 	  <div class="span-15 last prepend-5">
 	  	<g:render template="/compagny/companyForm" model="['actionType' : 'add']"></g:render>
 	  </div>

@@ -1,7 +1,8 @@
 package org.rumal.bo
 
-class Employee {
 
+class Employee {
+	
     String firstName
     String lastName
     String email
@@ -24,4 +25,5 @@ class Employee {
 	String getName() {
 		"$firstName $lastName"
 	}
+	
 }

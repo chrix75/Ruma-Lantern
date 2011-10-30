@@ -8,6 +8,8 @@ import org.rumal.bo.Employee;
 import org.rumal.lists.AjaxListBuilder;
 
 class CompagnyController {
+	
+	def validationService
 
     // menu page for applications management
     def index() {  }
@@ -108,13 +110,21 @@ class CompagnyController {
 			log.info("New employee with params $params")
 			
 			Employee emp = new Employee(params)
-			if (emp.validate()) {
-				Compagny cie = Compagny.get(params.cieId as Long)
-				cie?.addToEmployees emp
+			Compagny cie = Compagny.get(params.cieId as Long)
+			
+			def result = validationService.validateEmployee(emp, cie)
+			
+			if (result instanceof Boolean && result) {
 				log.info("Employee ${emp.name} added to company ${cie.name}")
+				cie?.addToEmployees emp
 				redirect(action: 'addEmployee', params: [cieId:cie.id as String])
 			} else {
 				log.error("Employee ${emp.name} hasn't been added")
+				
+				if (result instanceof String) {
+					flash.message = result
+				}
+				
 				return [employee: emp]
 			}
 		} else {

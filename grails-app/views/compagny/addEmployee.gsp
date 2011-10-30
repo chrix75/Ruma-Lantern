@@ -1,22 +1,7 @@
 <%@ page import="org.rumal.bo.Compagny" contentType="text/html;charset=UTF-8" %>
 <html>
   <head>
-  	
-	 <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'screen.css')}" type="text/css" media="screen, projection">
-	 <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'print.css')}" type="text/css" media="print"> 
-	 <!--[if lt IE 8]>
-	   <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'ie.css')}" type="text/css" media="screen, projection">
-	 <![endif]-->
-  	
-  	 <link rel="stylesheet" href="${resource(dir:'css', file:'rumal.css')}" type="text/css" media="screen, projection">
-  	 
-  	 <g:javascript library="jquery" />
-	 <r:layoutResources />
-	 <script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
-  	 
-  	
-  	<title>Add an user to a company</title>
-  	
+	<g:render template="/header" model="[title: 'Add an employee']"/>  	
   	<g:render template="/functions"></g:render>
   	
   	<g:javascript>
@@ -50,7 +35,21 @@
   
   <body>
   <div class="container main">
-	  <h1>Add Employee</h1>
+  	  <g:applyLayout name="pagetitle">Add an employee</g:applyLayout>
+
+	  <g:if test="${flash.message}">
+		  	<g:applyLayout name="errorbanner">
+			<g:message code="${flash.message}" args="[employee?.email]"/>
+			</g:applyLayout>	  	
+	  </g:if>
+	  <g:else>
+		  <g:applyLayout name="informationbanner">
+		  	Select the company where employee should be added.<br/>
+		  	Fill the form below with the new employee's information.<br/>
+		  	<b>Note:</b> All fields are required to validate new entry.	  	
+		  </g:applyLayout>
+	  </g:else>
+	  
 	  
 	  <div class="span-15 last prepend-5">
 		  <g:form action="addEmployee">
