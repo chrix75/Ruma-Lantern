@@ -1,7 +1,7 @@
 <%@ page import="org.rumal.bo.Compagny" contentType="text/html;charset=UTF-8" %>
 <html>
   <head>
-	<g:render template="/header" model="[title: 'Add an employee']"/>  	
+	<g:render template="/header" model="[title: 'Edit employee\'s information']"/>  	
   	<g:render template="/functions"></g:render>
   	
   	<g:javascript>
@@ -35,7 +35,7 @@
   
   <body>
   <div class="container main">
-  	  <g:applyLayout name="pagetitle">Add an employee</g:applyLayout>
+  	  <g:applyLayout name="pagetitle">Edit employee's information</g:applyLayout>
 
 	  <g:if test="${flash.success}">
 		  	<g:applyLayout name="successbanner">
@@ -59,8 +59,6 @@
 	  <div class="span-15 last prepend-5">
 	  	<g:render template="/compagny/employeeForm" model="['actionName': 'addEmployee', Compagny: Compagny]"/>
 	  </div>
-	  
-	  <g:render template="/list"/>
 	  
   </div>
   </body>

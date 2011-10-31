@@ -112,21 +112,47 @@ class CompagnyController {
 			Employee emp = new Employee(params)
 			Compagny cie = Compagny.get(params.cieId as Long)
 			
-			def result = validationService.validateEmployee(emp, cie)
+			def status = validationService.validateEmployee(emp, cie)
 			
-			if (result instanceof Boolean && result) {
+			if (!status.hasError()) {
 				log.info("Employee ${emp.name} added to company ${cie.name}")
-				cie?.addToEmployees emp
+				flash.success = 'org.rumal.bo.Employee.adding.successful'
 				redirect(action: 'addEmployee', params: [cieId:cie.id as String])
 			} else {
 				log.error("Employee ${emp.name} hasn't been added")
-				
-				if (result instanceof String) {
-					flash.message = result
-				}
-				
+				flash.message = status.message
 				return [employee: emp]
 			}
+		} else {
+			def givenId = params.cieId
+			return [params: [cieId: givenId ?: 0]]
+		}
+	}
+	
+	def editEmployee() {
+		if (params.validate) {
+			log.info("Edit employee with params $params")
+			
+			
+			Employee emp = Employee.get(params.id as Long)
+			Compagny cie = Compagny.get(params.cieId as Long)
+			
+			if (cie != emp.company) {
+			} else {
+				def status = validationService.validateEmployee(emp, cie, false)
+				
+				if (!status.hasError()) {
+					log.info("Employee ${emp.name} changed")
+					flash.success = 'org.rumal.bo.Employee.editing.successful'
+					redirect(action: 'addEmployee', params: [cieId:cie.id as String])
+				} else {
+					log.error("Employee ${emp.name} hasn't been edited")
+					flash.message = status.message
+					return [employee: emp]
+				}
+
+			}
+			
 		} else {
 			def givenId = params.cieId
 			return [params: [cieId: givenId ?: 0]]

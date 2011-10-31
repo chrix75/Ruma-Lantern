@@ -2,6 +2,7 @@ package org.rumal.svc
 
 import org.rumal.bo.Employee;
 import org.rumal.bo.Compagny;
+import org.rumal.results.ValidationStatus;
 
 class ValidationService {
 	
@@ -12,15 +13,22 @@ class ValidationService {
 	}
 	
 
-    def validateEmployee(Employee e, Compagny c) {
+    ValidationStatus validateEmployee(Employee e, Compagny c, searchInCompany = true) {
+		def status = new ValidationStatus(error: true)
+		
 		if (e.validate()) {
-			if (alreadyInCompany(e, c)) {
-				return "org.rumal.bo.Employee.already.in.company"
+			if (searchInCompany && alreadyInCompany(e, c)) {
+				status.message = "org.rumal.bo.Employee.already.in.company"
 			} else {
-				return true
+				status.error = false
+				if (e.id) {
+					e.save()	
+				} else {
+					c.addToEmployees(e)
+				}
 			}
-		}
+		} 
 
-		return false
+		return status
     }
 }

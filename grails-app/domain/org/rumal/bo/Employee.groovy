@@ -13,7 +13,7 @@ class Employee {
         email(nullable: false, blank: false, email: true)
     }
 
-    static belongsTo = Compagny
+    static belongsTo = [company : Compagny]
 
     static hasMany = [ users : User ]
 	
