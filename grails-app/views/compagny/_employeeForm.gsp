@@ -1,5 +1,6 @@
  <g:form action="${actionName}">
      <g:hiddenField name="validate" value="true"/>
+     <g:hiddenField name="id" value="${employee?.id}"/>
      <p><label>Company:</label><g:select id="cie" from="${Compagny.list()}" optionKey="id" optionValue="name" name="cieId"/></p>
      
      <p><label>Firstname:</label><g:textField name="firstName" value="${employee?.firstName ?: ''}"/></p>
@@ -27,8 +28,14 @@
  				<p class="inputError"><g:message error="${it}"/></p>
 	</g:eachError>
      </g:hasErrors>
+     <g:if test="${flash.mailerror}"><p class="inputError"><g:message code="${flash.mailerror}"/></p></g:if>
      <!-- Error message for above field [END]-->
      
-  	
+  	 <g:if test="${actionName == 'editEmployee'}">
+     <g:submitButton name="addEmployee" value="Edit"/>
+     <a class="cancel" href="${createLink(action:'addEmployee')}">Cancel</a>
+     </g:if>
+     <g:else>
      <g:submitButton name="addEmployee" value="Add"/>
+     </g:else>
  </g:form>

@@ -57,7 +57,7 @@
 	  
 	  
 	  <div class="span-15 last prepend-5">
-	  	<g:render template="/compagny/employeeForm" model="['actionName': 'addEmployee', Compagny: Compagny]"/>
+	  	<g:render template="/compagny/employeeForm" model="['actionName': 'editEmployee', Compagny: Compagny]"/>
 	  </div>
 	  
   </div>

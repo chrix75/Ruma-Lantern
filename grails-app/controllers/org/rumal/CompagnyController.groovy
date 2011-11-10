@@ -6,6 +6,7 @@ import groovy.xml.MarkupBuilder;
 import org.rumal.bo.Compagny
 import org.rumal.bo.Employee;
 import org.rumal.lists.AjaxListBuilder;
+import org.rumal.svc.ValidationService
 
 class CompagnyController {
 	
@@ -32,16 +33,14 @@ class CompagnyController {
     def add() {
         if (params.validate) {
             log.info("New company with params $params")
-            // this action is called to add a new company
-            Compagny cie = new Compagny(params)
+			def result = validationService.addCompany(params)
 			
-            if (cie.validate()) {
-                cie.save()
-                log.info("Company ${cie.name} added")
+			if (result.status == ValidationService.VALIDATE_ENTITY_OK) {
+                log.info("Company ${result.entity.name} added")
                 redirect(action: 'add')
             } else {
-                log.error("Company ${cie.name} hasn't been added")
-				return [company: cie, companies: Compagny.list()]
+                log.error("Company ${result.entity.name} hasn't been added")
+				return [company: result.entity, companies: Compagny.list()]
             }
         }  else {
             log.info("Add company form")
@@ -54,17 +53,15 @@ class CompagnyController {
         if (params.validate) {
             log.info("Edit company with params $params")
             // this action is called to add a new company
-            Compagny cie = Compagny.get(params.cieId as Long)
-			cie.properties = params
 			
-            if (cie.validate()) {
-                cie.save()
-                log.info("Company ${cie.name} added")
+			def result = validationService.editCompany(params)
+			
+			if (result.status == ValidationService.VALIDATE_ENTITY_OK) {
+                log.info("Company ${result.entity.name} changed")
                 redirect(action: 'add')
-            } else {
-                log.error("Company ${cie.name} hasn't been changed")
-				return [company: cie, companies: Compagny.list(), actionType: 'edit']
-            }
+			} else {
+				return [company: result.entity, companies: Compagny.list(), actionType: 'edit']
+			}
         }  else {
             log.info("Edit company form")
 			return [company: Compagny.get(params.id as Long), actionType: 'edit']
@@ -109,19 +106,20 @@ class CompagnyController {
 		if (params.validate) {
 			log.info("New employee with params $params")
 			
-			Employee emp = new Employee(params)
-			Compagny cie = Compagny.get(params.cieId as Long)
+			def result = validationService.addEmployee(params, params.cieId as Long)
 			
-			def status = validationService.validateEmployee(emp, cie)
-			
-			if (!status.hasError()) {
-				log.info("Employee ${emp.name} added to company ${cie.name}")
+			if (result.status == ValidationService.VALIDATE_ENTITY_OK) {
+				log.info("Employee ${result.entity.email} added to company ${result.entity.company.name}")
 				flash.success = 'org.rumal.bo.Employee.adding.successful'
-				redirect(action: 'addEmployee', params: [cieId:cie.id as String])
+				redirect(action: 'addEmployee', params: [cieId:result.entity.company.id as String])
 			} else {
-				log.error("Employee ${emp.name} hasn't been added")
-				flash.message = status.message
-				return [employee: emp]
+				log.error("Employee ${result.entity} hasn't been added")
+				
+				if (result.status == ValidationService.VALIDATE_ENTITY_MULTIPLES) {
+					flash.message = 'Ploum'
+				}
+				
+				return [employee: result.entity]
 			}
 		} else {
 			def givenId = params.cieId
@@ -132,30 +130,27 @@ class CompagnyController {
 	def editEmployee() {
 		if (params.validate) {
 			log.info("Edit employee with params $params")
-			
-			
-			Employee emp = Employee.get(params.id as Long)
-			Compagny cie = Compagny.get(params.cieId as Long)
-			
-			if (cie != emp.company) {
-			} else {
-				def status = validationService.validateEmployee(emp, cie, false)
-				
-				if (!status.hasError()) {
-					log.info("Employee ${emp.name} changed")
-					flash.success = 'org.rumal.bo.Employee.editing.successful'
-					redirect(action: 'addEmployee', params: [cieId:cie.id as String])
-				} else {
-					log.error("Employee ${emp.name} hasn't been edited")
-					flash.message = status.message
-					return [employee: emp]
-				}
 
+			def result = validationService.editEmployee(params, params.cieId as Long)
+			
+			if (result.status == ValidationService.VALIDATE_ENTITY_OK) {
+				log.info("Employee ${result.entity.email} modified in company ${result.entity.company.name}")
+				flash.success = 'org.rumal.bo.Employee.editing.successful'
+				redirect(action: 'addEmployee', params: [cieId:result.entity.company.id as String])
+			} else {
+				log.error("Employee ${result.entity} hasn't been changed")
+				
+				if (result.status == ValidationService.VALIDATE_ENTITY_MULTIPLES) {
+					flash.mailerror = 'org.rumal.bo.Employee.email.unique'
+				}
+				
+				result.entity.id = params.id as Long
+				return [employee: result.entity]
 			}
+
 			
 		} else {
-			def givenId = params.cieId
-			return [params: [cieId: givenId ?: 0]]
+			return [employee: Employee.get(params.id as Long)] 
 		}
 	}
 }

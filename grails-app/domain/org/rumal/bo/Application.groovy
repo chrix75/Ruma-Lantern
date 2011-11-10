@@ -5,7 +5,7 @@ class Application {
     String description
 
     static constraints = {
-        name(nullable: false, blank: false, unique: true)
+        name(nullable: false, blank: false)
         description(nullable: false, blank: false)
     }
 

@@ -25,19 +25,20 @@ class ApplicationComponentsService {
      * @return The new application.
      * @throws RumalException Raises if an application with the same name is already inside the application.
      */
-    Application addApplication(Compagny cie, application) throws RumalException {
-        if (!cie.hasAlreadyApplication(application.name)) {
-            org.rumal.bo.Application a = new Application(application)
+    def addApplication(Compagny cie, application) {
 
-            if (a.validate(['name', 'description'])) {
-                cie.addToApplications(a)
+        if (!cie.hasAlreadyApplication(application.name)) {
+            Application a = new Application(application)
+			a.cie = cie
+            if (a.validate()) {
+                cie.addToApplications(a).save()
+
                 log.info("Application ${a.name} added")
-            } else {
-                a = null
+            } else {                
                 log.error("Application ${a.name} can not be added")
             }
 
-            return a
+            
         } else {
             throw new RumalException("Application ${application.name} already exists inside compagny ${cie.name}",RumalException.APPLICATION_ALREADY_EXISTS)
         }

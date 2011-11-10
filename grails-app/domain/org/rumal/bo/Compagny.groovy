@@ -10,7 +10,7 @@ class Compagny {
 
 
     static constraints = {
-        name(nullable: false, blank: false, unique: true)
+        name(nullable: false, blank: false)
         siret(nullable: true, blank: true, validator: { siret, cie -> siret ==~ /\d+/  || !siret})
         zipcode(nullable: true, blank: true, validator: { zipcode, cie -> zipcode ==~ /\d+/ || !zipcode})
     }
@@ -18,5 +18,13 @@ class Compagny {
     Boolean hasAlreadyApplication(String name) {
         applications.find { it.name == name } != null
     }
+	
+	Boolean hasAlreadyItem(Employee e) {
+		employees.find { it.email == e.email } != null
+	}
+	
+	Boolean hasAlreadyItem(Application a) {
+		applications.find { it.name == a.name } != null
+	}
 
 }

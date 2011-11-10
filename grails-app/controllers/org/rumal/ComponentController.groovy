@@ -26,7 +26,7 @@ class ComponentController {
 
 	def loadCompagnyApp() {
 		def cieId = params.id
-		Compagny c = Compagny.findById(cieId as Long)
+		Compagny c = Compagny.get(cieId as Long)
 		
 		def app = c.applications as List
 		render(app as JSON)	
@@ -46,7 +46,7 @@ class ComponentController {
 	def loadCompagnyApp2() {
 		def cieId = params.id
 		if (cieId?.isNumber()) {
-			render([updaterId: params.updaterId, cieId: cieId, items: Compagny.findById(cieId as Long)?.applications] as JSON)
+			render([updaterId: params.updaterId, cieId: cieId, items: Compagny.findById(cieId as Long)?.applications.toList()] as JSON)
 		} else {
 			render([] as JSON)
 		}

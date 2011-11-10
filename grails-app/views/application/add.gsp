@@ -3,22 +3,11 @@
 <html>
   <head>
   	
-	 <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'screen.css')}" type="text/css" media="screen, projection">
-	 <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'print.css')}" type="text/css" media="print"> 
-	 <!--[if lt IE 8]>
-	   <link rel="stylesheet" href="${resource(dir:'css/blueprint', file:'ie.css')}" type="text/css" media="screen, projection">
-	 <![endif]-->
-  	
-  	 <link rel="stylesheet" href="${resource(dir:'css', file:'rumal.css')}" type="text/css" media="screen, projection">
-  	 
-  	 <g:javascript library="jquery" />
-	 <r:layoutResources />
-  	 <script type="text/javascript" src="${resource(dir:'js', file:'RumalHTMLItem.js')}"></script>
+	<g:render template="/header" model="[title: 'Add an application']"/>  	
+  	<g:render template="/functions"></g:render>
   	 
   	
   	<title>Add an application to a company</title>
-  	
-  	<g:render template="/functions"></g:render>
   
   	<g:javascript>
   		var applicationsTable;
@@ -26,7 +15,7 @@
   		
 		
   		function updateApplicationsList(id, node) {
-  			${remoteFunction(controller: 'component', action: 'loadCompagnyApp2', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onNodesLoaded(arguments)", onFailure: "error(arguments)")}
+  			${remoteFunction(controller: 'component', action: 'loadCompagnyApp', params: "'id=' + id + '&updaterId=1'", onSuccess: "arguments[arguments.length] = node ; onNodesLoaded(arguments)", onFailure: "error(arguments)")}
   		}    	
   	
 		$(document).ready(function() {
@@ -48,18 +37,15 @@
   
   <body>
   <div class="container main">
-	  <h1>Add Application</h1>
+	  <g:applyLayout name="pagetitle">Add an application</g:applyLayout>
 	  
-	  <div class="span-15 last prepend-5">
-		  <g:form action="add">
-		      <g:hiddenField name="validate" value="true"/>
-		      <p><label>Company:</label><g:select id="cie" from="${Compagny.list()}" optionKey="id" optionValue="name" name="cieId"/></p>
-		      <p><label>App's name:</label><g:textField name="name"/></p>
-		      <p><label>Description:</label><g:textArea name="description" cols="20" rows="5"/></p>
-		
-		      <g:actionSubmit value="Add"/>
-		  </g:form>
-	  </div>
+	  <g:if test="${flash.message}">
+	  <g:applyLayout name="errorbanner">
+	  <g:message code="${flash.message}"/>
+	  </g:applyLayout>	  	
+	  </g:if>
+	  
+	  <g:render template="/application/applicationForm" model="[Company : Compagny, application : application, actionName: 'add']"/>
 	  
 	  <g:render template="/list"/>
 	  

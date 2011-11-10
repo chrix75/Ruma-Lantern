@@ -6,7 +6,9 @@ import org.rumal.bo.Employee;
 import org.rumal.bo.Permission;
 import org.rumal.bo.Role;
 import org.rumal.bo.User;
+import org.rumal.exceptions.RumalException;
 import org.rumal.lists.AjaxListBuilder;
+import org.rumal.svc.ValidationService;
 
 import grails.converters.JSON;
 import groovy.xml.MarkupBuilder;
@@ -14,6 +16,7 @@ import groovy.xml.MarkupBuilder;
 class ApplicationController {
 
     def applicationComponentsService
+	def validationService
 	
 	def fetchComponents() {
 		def appId = params.id
@@ -93,12 +96,16 @@ class ApplicationController {
     def add() {
         if (params.validate) {
             log.info("Add application with params $params")
-            assert params.cieId
+			
+			def result = validationService.addApplication(params, params.cieId as Long)
+			
+			if (result.status == ValidationService.VALIDATE_ENTITY_OK) {
+				redirect(action: 'add')
+			} else if (result.status == ValidationService.VALIDATE_ENTITY_MULTIPLES) {
+				flash.message = 'org.rumal.bo.Application.unique'
+			}
 
-            applicationComponentsService.addApplication(params.cieId as Long, [name: params.name, description: params.description])
-
-            redirect(action: 'add')
-
+			return [application: [cieId: params.cieId, name: params.name, description: params.description]]
         }
     }
 	
@@ -136,18 +143,18 @@ class ApplicationController {
     }
 	
 	def edit() {
-		Application app = Application.get(params.id as Long)
 		if (params.validate) {
-			log.info("Update data for application ${app.name})")
+			def result = validationService.editApplication(params, params.cieId as Long)
 			
-			app.name = params.name
-			app.description = params.description
-			app.save()
-			
-			redirect(action:'add')		
+			if (result.status == ValidationService.VALIDATE_ENTITY_OK) {
+				log.info("Update data for application ${result.entity.name})")
+				redirect(action:'add')
+			} else {
+				return [application: result.entity]
+			}
 			
 		} else {
-			return [name: app?.name, description: app?.description, id: app?.id]
+			return [application: Application.get(params.id)]
 		}
 	}
 	
